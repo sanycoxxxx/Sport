@@ -7,9 +7,7 @@
     font-family: Roboto, sans-serif;
     background-color:rgb(168, 168, 168)
 }
-body{
-    background-image: url(img/sport/trenajerniy-zal-new.jpg);
-}
+
 a {
     text-decoration: none
 }
@@ -196,13 +194,14 @@ a {
 }
 
 .tabcontent__descr {
+    overflow: auto;
     position: absolute;
-    top: 300px;
-    right: -177px;
-    width: 550px;
-    height: 359px;
-    background: rgba(251, 254, 93, .8);
-    padding: 50px;
+    bottom: 0px;
+    right: 0px;
+    width: auto;
+    height: auto;
+    background: rgba(255, 255, 255, 0.568);
+    padding: 10px;
     font-size: 24px;
     font-weight: 300;
     line-height: 36px;
