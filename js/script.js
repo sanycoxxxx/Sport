@@ -90,81 +90,81 @@ window.addEventListener('DOMContentLoaded', function () {
     setClock('.timer', deadline);
 
     const modalTrigger = document.querySelectorAll('[data-modal]'),
-    modal = document.querySelector('.modal'),
-    modalCloseBtn = document.querySelector('[data-close]');
-
-modalTrigger.forEach(btn => {
-    btn.addEventListener('click', openModal);
-});
-
-function closeModal() {
-    modal.classList.add('hide');
-    modal.classList.remove('show');
-    document.body.style.overflow = '';
-}
-
-function openModal() {
-    modal.classList.add('show');
-    modal.classList.remove('hide');
-    document.body.style.overflow = 'hidden';
-    clearInterval(modalTimerId);
-}
-
-modalCloseBtn.addEventListener('click', closeModal);
-
-modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-        closeModal();
-    }
-});
-
-document.addEventListener('keydown', (e) => {
-    if (e.code === "Escape" && modal.classList.contains('show')) { 
-        closeModal();
-    }
-});
-
-const modalTimerId = setTimeout(openModal, 300000);
-// Изменил значение, чтобы не отвлекало
-
-function showModalByScroll() {
-    if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
-        openModal();
-        window.removeEventListener('scroll', showModalByScroll);
-    }
-}
-window.addEventListener('scroll', showModalByScroll);
+        modal = document.querySelector('.modal');
 
 
+    modalTrigger.forEach(btn => {
+        btn.addEventListener('click', openModal);
+    });
 
-class MenuCard {
-    constructor(src, alt, title, descr, price, parentId, ...classes) {
-        this.src = src;
-        this.alt = alt;
-        this.title = title;
-        this.descr = descr;
-        this.price = price;
-        this.classes = classes;
-        this.parent = document.querySelector(parentId);
-        this.transfer = 27;
-        this.changeToUAH(); 
+    function closeModal() {
+        modal.classList.add('hide');
+        modal.classList.remove('show');
+        document.body.style.overflow = '';
     }
 
-    changeToUAH() {
-        this.price = this.price * this.transfer; 
+    function openModal() {
+        modal.classList.add('show');
+        modal.classList.remove('hide');
+        document.body.style.overflow = 'hidden';
+        clearInterval(modalTimerId);
     }
 
-    render() {
-        const element = document.createElement('div');
 
-        if (this.classes.length === 0) {
-            this.classes = "menu__item";
-            element.classList.add(this.classes);
-        } else {
-            this.classes.forEach(className => element.classList.add(className));
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal || e.target.getAttribute('data-close') == '') {
+            closeModal();
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.code === "Escape" && modal.classList.contains('show')) {
+            closeModal();
+        }
+    });
+
+    const modalTimerId = setTimeout(openModal, 50000);
+    
+
+    function showModalByScroll() {
+        if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
+            openModal();
+            window.removeEventListener('scroll', showModalByScroll);
+        }
+    }
+    window.addEventListener('scroll', showModalByScroll);
+
+
+
+    class MenuCard {
+        constructor(src, alt, title, descr, price, parentId, ...classes) {
+            this.src = src;
+            this.alt = alt;
+            this.title = title;
+            this.descr = descr;
+            this.price = price;
+            this.classes = classes;
+            this.parent = document.querySelector(parentId);
+            this.transfer = 27;
+            this.changeToUAH();
         }
 
-        element.innerHTML = `
+        changeToUAH() {
+            this.price = this.price * this.transfer;
+        }
+
+        render() {
+            const element = document.createElement('div');
+
+            if (this.classes.length === 0) {
+                this.classes = "menu__item";
+                element.classList.add(this.classes);
+            } else {
+                this.classes.forEach(className => element.classList.add(className));
+            }
+
+            element.innerHTML = `
             <img src=${this.src} alt=${this.alt}>
             <h3 class="menu__item-subtitle">${this.title}</h3>
             <div class="menu__item-descr">${this.descr}</div>
@@ -174,75 +174,90 @@ class MenuCard {
                 <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
             </div>
         `;
-        this.parent.append(element);
+            this.parent.append(element);
+        }
     }
-}
 
-new MenuCard(
-    "img/sport/alone.jpeg",
-    "sportAlone",
-    'Меню "Фитнес"',
-    'Меню "Фитнес"!',
-    9,
-    "#menu-container"
-).render();
-
+    new MenuCard(
+        "img/sport/alone.jpeg",
+        "sportAlone",
+        'Меню "Фитнес"',
+        'Меню "Фитнес"!',
+        9,
+        "#menu-container"
+    ).render();
 
 
 
+    const forms = document.querySelectorAll('form');
 
+    const message = {
+        loading: 'icons/spinner.svg',
+        success: 'Спасибо! Скоро мы с вами свяжемся',
+        failure: 'Что-то пошло не так...'
+    };
 
-
-
-const forms = document.querySelectorAll('form');
-
-const  message = {
-    loading: 'Загрузка...',
-    success: 'Спасибо! Скоро мы с вами свяжемся',
-    failure: 'Что-то пошло не так...'
-};
-
-forms.forEach(item => {
-    postData(item);
-});
-
-function postData(form) {
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        let statusMessage = document.createElement('div');
-        statusMessage.classList.add('status');
-        statusMessage.textContent = message.loading;
-        form.appendChild(statusMessage);
-    
-        const request = new XMLHttpRequest();
-        request.open('POST', 'server.php');
-        request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-        const formData = new FormData(form);
-
-        const object = {};
-        formData.forEach(function(value, key){
-            object[key] = value;
-        });
-        const json = JSON.stringify(object);
-
-        request.send(json);
-
-        request.addEventListener('load', () => {
-            if (request.status === 200) {
-                console.log(request.response);
-                statusMessage.textContent = message.success;
-                form.reset();
-                setTimeout(() => {
-                    statusMessage.remove();
-                }, 2000);
-            } else {
-                statusMessage.textContent = message.failure;
-            }
-        });
+    forms.forEach(item => {
+        postData(item);
     });
-}
 
+    function postData(form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
 
+            let statusMessage = document.createElement('img');
+            statusMessage.src = message.loading;
+            statusMessage.style.cssText = `
+            display: block;
+            margin: 0 auto;`;
+            form.insertAdjacentElement('afterend', statusMessage);
+
+            const request = new XMLHttpRequest();
+            request.open('POST', 'server.php');
+            request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+            const formData = new FormData(form);
+
+            const object = {};
+            formData.forEach(function (value, key) {
+                object[key] = value;
+            });
+            const json = JSON.stringify(object);
+
+            request.send(json);
+
+            request.addEventListener('load', () => {
+                if (request.status === 200) {
+                    console.log(request.response);
+                    showThanksModal(message.success);
+                    form.reset();
+                        statusMessage.remove();
+                  
+                } else {
+                    showThanksModal(message.failure);
+                }
+            });
+        });
+    };
+
+    function showThanksModal(message) {
+        const prevModalDialog = document.querySelector('.modal__dialog');
+        prevModalDialog.classList.add('hide');
+        openModal();
+        const thanksModal = document.createElement('div');
+        thanksModal.classList.add('modal__dialog');
+        thanksModal.innerHTML = `
+    <div class="modal__content">
+         <div class="modal__close" data-close>&times;</div>
+         <div class="modal__title">${message} </div>
+   </div>`;
+
+        document.querySelector('.modal').append(thanksModal);
+        setTimeout(() => {
+            thanksModal.remove();
+            prevModalDialog.classList.add('show');
+            prevModalDialog.classList.remove('hide');
+            closeModal();
+        }, 4000);
+    }
 
 });
