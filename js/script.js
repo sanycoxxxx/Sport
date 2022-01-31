@@ -125,7 +125,7 @@ window.addEventListener('DOMContentLoaded', function () {
     });
 
     const modalTimerId = setTimeout(openModal, 50000);
-    
+
 
     function showModalByScroll() {
         if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
@@ -208,56 +208,137 @@ window.addEventListener('DOMContentLoaded', function () {
             let statusMessage = document.createElement('img');
             statusMessage.src = message.loading;
             statusMessage.style.cssText = `
-            display: block;
-            margin: 0 auto;`;
+                         display: block;
+                         margin: 0 auto;`;
             form.insertAdjacentElement('afterend', statusMessage);
 
-            const request = new XMLHttpRequest();
-            request.open('POST', 'server.php');
-            request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+
             const formData = new FormData(form);
 
             const object = {};
             formData.forEach(function (value, key) {
                 object[key] = value;
             });
-            const json = JSON.stringify(object);
 
-            request.send(json);
-
-            request.addEventListener('load', () => {
-                if (request.status === 200) {
-                    console.log(request.response);
+            fetch('server.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify(object)
+                }).then(data => data.text())
+                .then(data => {
+                    console.log(data);
                     showThanksModal(message.success);
                     form.reset();
-                        statusMessage.remove();
-                  
-                } else {
+                    statusMessage.remove();
+                }).catch(() => {
                     showThanksModal(message.failure);
-                }
-            });
+                }).finally(() => {
+                    form.reset();
+                });
         });
+
+        function showThanksModal(message) {
+            const prevModalDialog = document.querySelector('.modal__dialog');
+            prevModalDialog.classList.add('hide');
+            openModal();
+            const thanksModal = document.createElement('div');
+            thanksModal.classList.add('modal__dialog');
+            thanksModal.innerHTML = `
+                <div class="modal__content">
+                      <div class="modal__close" data-close>&times;</div>
+                      <div class="modal__title">${message} </div>
+                 </div>`;
+
+            document.querySelector('.modal').append(thanksModal);
+            setTimeout(() => {
+                thanksModal.remove();
+                prevModalDialog.classList.add('show');
+                prevModalDialog.classList.remove('hide');
+                closeModal();
+            }, 4000);
+        }
     };
 
-    function showThanksModal(message) {
-        const prevModalDialog = document.querySelector('.modal__dialog');
-        prevModalDialog.classList.add('hide');
-        openModal();
-        const thanksModal = document.createElement('div');
-        thanksModal.classList.add('modal__dialog');
-        thanksModal.innerHTML = `
-    <div class="modal__content">
-         <div class="modal__close" data-close>&times;</div>
-         <div class="modal__title">${message} </div>
-   </div>`;
 
-        document.querySelector('.modal').append(thanksModal);
-        setTimeout(() => {
-            thanksModal.remove();
-            prevModalDialog.classList.add('show');
-            prevModalDialog.classList.remove('hide');
-            closeModal();
-        }, 4000);
-    }
+
+
+
+    // promise ES6
+
+
+    //     console.log('Запрос данных');
+
+    //     const req = new Promise(function (resolve, reject) {
+    //         setTimeout(() => {
+    //             console.log("Подготовка данных");
+
+    //             const product = {
+    //                 name: 'TV',
+    //                 price: 2000
+    //             };
+
+    //             resolve(product);
+    //         }, 2000);
+    //     });
+
+    //     req.then((product) => {
+    //         return new Promise((resolve, reject) => {
+    //             setTimeout(() => {
+    //                 product.order = 'status';
+    //                 resolve(product);
+    //             }, 2000);
+    //         }).then(data => {
+    //             data.modify = true;
+    //             return (data);
+    //         }).then(data => {
+    //             console.log(data);
+    //         }).catch( () => {
+    //             console.error('Произошла ошибка');
+    //         }).finally(() => {
+    // console.log('Finally');
+    //         }, 2000);
+
+    //     });
+
+
+
+
+    // const test = time => {
+    //     return new Promise(resolve => {
+    //         setTimeout(() => resolve(), time);
+    //     })
+    // };
+    // test(1000).then(() => console.log('1000 ms'));
+    // test(2000).then(() => console.log('2000 ms'));
+
+    // Promise.all([test(1000),  test(2000)]).then(()  => {
+    // console.log('All');
+    // });
+
+    // Promise.race([test(1000), test(2000)]).then(() => {
+    //     console.log('All');
+    // });
+
+
+
+
+
+    //     fetch('https://jsonplaceholder.typicode.com/posts', {
+    // method: "POST",
+    // body: JSON.stringify({name: 'Alexandr'}),
+    // headers: {
+    //     'content-type': 'application/json'
+    // }
+    //     })
+    //         .then(response => response.json())
+    //         .then(json => console.log(json));
+
+const arr = [1, 5, 8, 1];
+const res = arr.reduce((sum, current)  => sum + current);
+console.log(res);
+
+
 
 });

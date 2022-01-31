@@ -1,0 +1,19 @@
+{
+  "name": "sport",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sanycoxxxx/Sport.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sanycoxxxx/Sport/issues"
+  },
+  "homepage": "https://github.com/sanycoxxxx/Sport#readme"
+}
