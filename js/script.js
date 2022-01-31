@@ -198,10 +198,22 @@ window.addEventListener('DOMContentLoaded', function () {
     };
 
     forms.forEach(item => {
-        postData(item);
+        bindPostData(item);
     });
 
-    function postData(form) {
+    const postsData = async (url, data) => {
+        const res = await fetch(url, {
+            method:"POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: data
+        });
+        console.log('ok');
+        return await res.json();
+    };
+
+    function bindPostData(form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
 
@@ -215,18 +227,11 @@ window.addEventListener('DOMContentLoaded', function () {
 
             const formData = new FormData(form);
 
-            const object = {};
-            formData.forEach(function (value, key) {
-                object[key] = value;
-            });
+            const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
-            fetch('server.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-type': 'application/json'
-                    },
-                    body: JSON.stringify(object)
-                }).then(data => data.text())
+            
+
+            postsData("http://localhost:3000/requests", JSON.stringify(json))
                 .then(data => {
                     console.log(data);
                     showThanksModal(message.success);
@@ -261,6 +266,10 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     };
 
+
+    fetch('http://localhost:3000/programs')
+        .then(data => data.json())
+        .then(res => console.log(res));
 
 
 
@@ -335,9 +344,9 @@ window.addEventListener('DOMContentLoaded', function () {
     //         .then(response => response.json())
     //         .then(json => console.log(json));
 
-const arr = [1, 5, 8, 1];
-const res = arr.reduce((sum, current)  => sum + current);
-console.log(res);
+    // const arr = [1, 5, 8, 1];
+    // const res = arr.reduce((sum, current) => sum + current);
+    // console.log(res);
 
 
 
