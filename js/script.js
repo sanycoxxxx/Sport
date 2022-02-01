@@ -178,15 +178,6 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    new MenuCard(
-        "img/sport/alone.jpeg",
-        "sportAlone",
-        'Меню "Фитнес"',
-        'Меню "Фитнес"!',
-        9,
-        "#menu-container"
-    ).render();
-
 
 
     const forms = document.querySelectorAll('form');
@@ -203,7 +194,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
     const postsData = async (url, data) => {
         const res = await fetch(url, {
-            method:"POST",
+            method: "POST",
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -229,9 +220,9 @@ window.addEventListener('DOMContentLoaded', function () {
 
             const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
-            
 
-            postsData("http://localhost:3000/requests", JSON.stringify(json))
+
+            postsData("http://localhost:3000/requests", json)
                 .then(data => {
                     console.log(data);
                     showThanksModal(message.success);
@@ -264,6 +255,49 @@ window.addEventListener('DOMContentLoaded', function () {
                 closeModal();
             }, 4000);
         }
+    };
+
+    const getResource = async (url) => {
+        const res = await fetch(url);
+        console.log('ok');
+        if (!res.ok) {
+            throw new Error(`Could not fetch ${url}, status: ${res.status}`);
+        }
+        return await res.json();
+    };
+
+    // getResource('http://localhost:3000/programs')
+    // .then(data => {
+    //     data.forEach(({img, alt, title, descr, price}) => {
+    // new MenuCard(img, alt, title, descr, price, '#menu-container').render();
+    //     });
+    // });
+
+
+    getResource('http://localhost:3000/programs')
+        .then(data => createCard(data));
+
+    function createCard(data)  {
+        forEach(({
+            img,
+            alt,
+            title,
+            descr,
+            price
+        }) => {
+            const element = document.createElement('div');
+            element.classList.add('menu_item');
+            element.innerHTML = `
+             <img src=${src} alt=${alt}>
+                 <h3 class="menu__item-subtitle">${title}</h3>
+                 <div class="menu__item-descr">${descr}</div>
+                 <div class="menu__item-divider"></div>
+                 <div class="menu__item-price">
+                 <div class="menu__item-cost">Цена:</div>
+                 <div class="menu__item-total"><span>${price}</span> грн/день</div>
+             </div>`;
+            document.querySelector('.menu .container');
+        });
     };
 
 
