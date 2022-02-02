@@ -1,7 +1,8 @@
 'use strict';
+'esversion: 6';
 
 window.addEventListener('DOMContentLoaded', function () {
-    console.log("DOM succes loaded");
+    // console.log("DOM succes loaded");
 
     const tabs = document.querySelectorAll('.tabheader__item'),
         tabsContents = document.querySelectorAll('.tabcontent'),
@@ -137,46 +138,46 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
 
-    class MenuCard {
-        constructor(src, alt, title, descr, price, parentId, ...classes) {
-            this.src = src;
-            this.alt = alt;
-            this.title = title;
-            this.descr = descr;
-            this.price = price;
-            this.classes = classes;
-            this.parent = document.querySelector(parentId);
-            this.transfer = 27;
-            this.changeToUAH();
-        }
+    // class MenuCard {
+    //     constructor(src, alt, title, descr, price, parentId, ...classes) {
+    //         this.src = src;
+    //         this.alt = alt;
+    //         this.title = title;
+    //         this.descr = descr;
+    //         this.price = price;
+    //         this.classes = classes;
+    //         this.parent = document.querySelector(parentId);
+    //         this.transfer = 27;
+    //         this.changeToUAH();
+    //     }
 
-        changeToUAH() {
-            this.price = this.price * this.transfer;
-        }
+    //     changeToUAH() {
+    //         this.price = this.price * this.transfer;
+    //     }
 
-        render() {
-            const element = document.createElement('div');
+    //     render() {
+    //         const element = document.createElement('div');
 
-            if (this.classes.length === 0) {
-                this.classes = "menu__item";
-                element.classList.add(this.classes);
-            } else {
-                this.classes.forEach(className => element.classList.add(className));
-            }
+    //         if (this.classes.length === 0) {
+    //             this.classes = "menu__item";
+    //             element.classList.add(this.classes);
+    //         } else {
+    //             this.classes.forEach(className => element.classList.add(className));
+    //         }
 
-            element.innerHTML = `
-            <img src=${this.src} alt=${this.alt}>
-            <h3 class="menu__item-subtitle">${this.title}</h3>
-            <div class="menu__item-descr">${this.descr}</div>
-            <div class="menu__item-divider"></div>
-            <div class="menu__item-price">
-                <div class="menu__item-cost">Цена:</div>
-                <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
-            </div>
-        `;
-            this.parent.append(element);
-        }
-    }
+    //         element.innerHTML = `
+    //         <img src=${this.src} alt=${this.alt}>
+    //         <h3 class="menu__item-subtitle">${this.title}</h3>
+    //         <div class="menu__item-descr">${this.descr}</div>
+    //         <div class="menu__item-divider"></div>
+    //         <div class="menu__item-price">
+    //             <div class="menu__item-cost">Цена:</div>
+    //             <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
+    //         </div>
+    //     `;
+    //         this.parent.append(element);
+    //     }
+    // }
 
 
 
@@ -266,6 +267,55 @@ window.addEventListener('DOMContentLoaded', function () {
         return await res.json();
     };
 
+
+    class MenuCard {
+        constructor(src, alt, title, descr, price, parentSelector, ...classes) {
+            this.src = src;
+            this.alt = alt;
+            this.title = title;
+            this.descr = descr;
+            this.price = price;
+            this.classes = classes;
+            this.parent = document.querySelector(parentSelector);
+            this.transfer = 27;
+            this.changeToUAH(); 
+        }
+
+        changeToUAH() {
+            this.price = this.price * this.transfer; 
+        }
+
+        render() {
+            const element = document.createElement('div');
+
+            if (this.classes.length === 0) {
+                this.classes = "menu__item";
+                element.classList.add(this.classes);
+            } else {
+                this.classes.forEach(className => element.classList.add(className));
+            }
+
+            element.innerHTML = `
+                <img src=${this.src} alt=${this.alt}>
+                <h3 class="menu__item-subtitle">${this.title}</h3>
+                <div class="menu__item-descr">${this.descr}</div>
+                <div class="menu__item-divider"></div>
+                <div class="menu__item-price">
+                    <div class="menu__item-cost">Цена:</div>
+                    <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
+                </div>
+            `;
+            this.parent.append(element);
+        }
+    }
+
+    getResource('http://localhost:3000/programs')
+        .then(data => {
+            data.forEach(({img, altimg, title, descr, price}) => {
+                new MenuCard(img, altimg, title, descr, price, ".menu .container").render();
+            });
+        });
+    
     // getResource('http://localhost:3000/programs')
     // .then(data => {
     //     data.forEach(({img, alt, title, descr, price}) => {
@@ -274,38 +324,41 @@ window.addEventListener('DOMContentLoaded', function () {
     // });
 
 
-    getResource('http://localhost:3000/programs')
-        .then(data => createCard(data));
+    // getResource('http://localhost:3000/programs').then(data => console.log(data))
+    //     .then(data => createCard(data));
 
-    function createCard(data)  {
-        forEach(({
-            img,
-            alt,
-            title,
-            descr,
-            price
-        }) => {
-            const element = document.createElement('div');
-            element.classList.add('menu_item');
-            element.innerHTML = `
-             <img src=${src} alt=${alt}>
-                 <h3 class="menu__item-subtitle">${title}</h3>
-                 <div class="menu__item-descr">${descr}</div>
-                 <div class="menu__item-divider"></div>
-                 <div class="menu__item-price">
-                 <div class="menu__item-cost">Цена:</div>
-                 <div class="menu__item-total"><span>${price}</span> грн/день</div>
-             </div>`;
-            document.querySelector('.menu .container');
-        });
-    };
+    // function createCard(data) {
+    //     data.forEach(({
+    //         img,
+    //         alt,
+    //         title,
+    //         descr,
+    //         price
+    //     }) => {
 
-
-    fetch('http://localhost:3000/programs')
-        .then(data => data.json())
-        .then(res => console.log(res));
+    //         const element = document.createElement('div');
+    //         element.classList.add('menu_item');
+    //         element.innerHTML = `
+    //          <img src=${img} alt=${alt}>
+    //              <h3 class="menu__item-subtitle">${title}</h3>
+    //              <div class="menu__item-descr">${descr}</div>
+    //              <div class="menu__item-divider"></div>
+    //              <div class="menu__item-price">
+    //              <div class="menu__item-cost">Цена:</div>
+    //              <div class="menu__item-total"><span>${price}</span> грн/день</div>
+    //          </div>`;
+    //         document.querySelector('.menu-container').append(element);
+    //     });
+    // };
 
 
+
+    // fetch('http://localhost:3000/programs')
+    //     .then(data => data.json())
+    //     .then(res => console.log(res));
+
+    // axios.get("http://localhost:3000/programs")
+    //     .then(data => console.log(data));
 
 
     // promise ES6
