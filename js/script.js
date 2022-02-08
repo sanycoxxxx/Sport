@@ -449,10 +449,10 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 
     next.addEventListener('click', function () {
-        if (offSet == +width.slice(0, width.length - 2) * (img.length - 1)) {
+        if (offSet == +width.replace(/px/, '') * (img.length - 1)) {
             offSet = 0;
         } else {
-            offSet += +width.slice(0, width.length - 2);
+            offSet += +width.replace(/px/, '');
         };
 
         slideField.style.transform = `translateX(-${offSet}px)`;
@@ -463,6 +463,8 @@ window.addEventListener('DOMContentLoaded', function () {
             slideIndex++;
         };
 
+console.log(+width.replace(/px/, ''));
+
         checkTotalIndex();
 
         dotOn();
@@ -471,9 +473,9 @@ window.addEventListener('DOMContentLoaded', function () {
     prev.addEventListener('click', function () {
 
         if (offSet == 0) {
-            offSet = +width.slice(0, width.length - 2) * (img.length - 1);
+            offSet = +width.replace(/px/, '') * (img.length - 1);
         } else {
-            offSet -= +width.slice(0, width.length - 2);
+            offSet -= +width.replace(/px/, '');
         };
 
         slideField.style.transform = `translateX(-${offSet}px)`;
@@ -497,7 +499,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
             slideIndex = slideTo;
 
-            offSet = +width.slice(0, width.length - 2) * (slideTo - 1);
+            offSet = +width.replace(/px/, '') * (slideTo - 1);
 
             slideField.style.transform = `translateX(-${offSet}px)`;
 
