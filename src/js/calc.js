@@ -1,7 +1,7 @@
 'use strict';
 
-function calc() {
-    const result = document.querySelector('.calculating__result span');
+function calc(resultSelector) {
+    const result = document.querySelector(resultSelector);
 
 
 
@@ -114,4 +114,4 @@ function calc() {
 
 }
 
-module.exports = calc;
+export default calc;

@@ -1,8 +1,8 @@
 'use strict';
-
-function modal() {
-    const modalTrigger = document.querySelectorAll('[data-modal]'),
-        modal = document.querySelector('.modal');
+import {postsData} from '../services/services'
+function modal( modal_Trigger, modal_window ) {
+    const modalTrigger = document.querySelectorAll(modal_Trigger),
+        modal = document.querySelector(modal_window );
 
 
     modalTrigger.forEach(btn => {
@@ -39,13 +39,13 @@ function modal() {
     const modalTimerId = setTimeout(openModal, 5000000000);
 
 
-    function showModalByScroll() {
-        if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
-            openModal();
-            window.removeEventListener('scroll', showModalByScroll);
-        }
-    }
-    window.addEventListener('scroll', showModalByScroll);
+    // function showModalByScroll() {
+    //     if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
+    //         openModal();
+    //         window.removeEventListener('scroll', showModalByScroll);
+    //     }
+    // }
+    // window.addEventListener('scroll', showModalByScroll);
 
     const forms = document.querySelectorAll('form');
 
@@ -59,17 +59,7 @@ function modal() {
         bindPostData(item);
     });
 
-    const postsData = async (url, data) => {
-        const res = await fetch(url, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: data
-        });
-        console.log('ok');
-        return await res.json();
-    };
+  postsData();
 
     function bindPostData(form) {
         form.addEventListener('submit', (e) => {
@@ -126,4 +116,4 @@ function modal() {
 
 };
 
-module.exports = modal;
+export default modal;

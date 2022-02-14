@@ -1,6 +1,6 @@
 'use strict';
 
-function cards() {
+function cards(exchangeRates) {
     class MenuCard {
         constructor(src, alt, title, descr, price, parentSelector, ...classes) {
             this.src = src;
@@ -10,7 +10,7 @@ function cards() {
             this.price = price;
             this.classes = classes;
             this.parent = document.querySelector(parentSelector);
-            this.transfer = 27;
+            this.transfer = exchangeRates;
             this.changeToUAH();
         }
 
@@ -58,4 +58,4 @@ function cards() {
 
 };
 
-module.exports = cards;
+export default cards;

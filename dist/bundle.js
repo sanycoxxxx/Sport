@@ -6,12 +6,16 @@
 /*!************************!*\
   !*** ./src/js/calc.js ***!
   \************************/
-/***/ ((module) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
 
 
-
-function calc () {
-    const result = document.querySelector('.calculating__result span');
+function calc(resultSelector) {
+    const result = document.querySelector(resultSelector);
 
 
 
@@ -48,7 +52,7 @@ function calc () {
 
     function initLocalSetting(selector, activeClass) {
         const elements = document.querySelectorAll(selector);
-    
+
         elements.forEach(elem => {
             elem.classList.remove(activeClass);
             if (elem.getAttribute('id') === localStorage.getItem('sex')) {
@@ -58,15 +62,15 @@ function calc () {
                 elem.classList.add(activeClass);
             }
         });
-    
+
     };
-    
+
     initLocalSetting('#gender div', 'calculating__choose-item_active');
     initLocalSetting('.calculating__choose_big div', 'calculating__choose-item_active');
-    
+
     function getStaticInformation(selector, activeClass) {
         const elements = document.querySelectorAll(selector);
-    
+
         elements.forEach(elem => {
             elem.addEventListener('click', (e) => {
                 if (e.target.getAttribute('data-ratio')) {
@@ -76,32 +80,32 @@ function calc () {
                     sex = e.target.getAttribute('id');
                     localStorage.setItem('sex', e.target.getAttribute('id'));
                 }
-    
+
                 elements.forEach(elem => {
                     elem.classList.remove(activeClass);
                 });
-    
+
                 e.target.classList.add(activeClass);
-    
+
                 calcTotal();
             });
         });
     };
-    
+
     getStaticInformation('#gender div', 'calculating__choose-item_active');
     getStaticInformation('.calculating__choose_big div', 'calculating__choose-item_active');
-    
+
     function getDynamicInformation(selector) {
         const input = document.querySelector(selector);
-    
+
         input.addEventListener('input', () => {
             if (input.value.match(/\D/g)) {
                 input.style.border = '1px solid red';
-    
+
             } else {
                 input.style.border = 'none';
             }
-    
+
             switch (input.getAttribute('id')) {
                 case "height":
                     height = +input.value;
@@ -113,21 +117,18 @@ function calc () {
                     age = +input.value;
                     break;
             }
-    
+
             calcTotal();
         });
     }
-    
+
     getDynamicInformation('#height');
     getDynamicInformation('#weight');
     getDynamicInformation('#age');
-    
+
 }
 
-module.exports = calc;
-
-
-
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (calc);
 
 /***/ }),
 
@@ -135,11 +136,15 @@ module.exports = calc;
 /*!*************************!*\
   !*** ./src/js/cards.js ***!
   \*************************/
-/***/ ((module) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
 
 
-
-function cards () {
+function cards(exchangeRates) {
     class MenuCard {
         constructor(src, alt, title, descr, price, parentSelector, ...classes) {
             this.src = src;
@@ -149,7 +154,7 @@ function cards () {
             this.price = price;
             this.classes = classes;
             this.parent = document.querySelector(parentSelector);
-            this.transfer = 27;
+            this.transfer = exchangeRates;
             this.changeToUAH();
         }
 
@@ -182,23 +187,22 @@ function cards () {
     }
 
     axios.get("http://localhost:3000/programs")
-    .then(data => {
-        data.data.forEach(({
-            img,
-            altimg,
-            title,
-            descr,
-            price
-        }) => {
-            new MenuCard(img, altimg, title, descr, price, ".menu .container").render();
-        })
-    });
+        .then(data => {
+            data.data.forEach(({
+                img,
+                altimg,
+                title,
+                descr,
+                price
+            }) => {
+                new MenuCard(img, altimg, title, descr, price, ".menu .container").render();
+            })
+        });
 
 
 };
 
-module.exports = cards;
-
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (cards);
 
 /***/ }),
 
@@ -206,11 +210,14 @@ module.exports = cards;
 /*!*************************!*\
   !*** ./src/js/index.js ***!
   \*************************/
-/***/ ((module) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
 
 
-
- const consol = 'hello';
 
 function conso() {
     this.hello = function () {
@@ -221,7 +228,7 @@ console.log('hello');
     }
 };
 
-module.exports = conso;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (conso);
 
 
 /***/ }),
@@ -230,13 +237,18 @@ module.exports = conso;
 /*!*************************!*\
   !*** ./src/js/modal.js ***!
   \*************************/
-/***/ ((module) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _services_services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/services */ "./src/services/services.js");
 
 
-
-function modal() {
-    const modalTrigger = document.querySelectorAll('[data-modal]'),
-        modal = document.querySelector('.modal');
+function modal( modal_Trigger, modal_window ) {
+    const modalTrigger = document.querySelectorAll(modal_Trigger),
+        modal = document.querySelector(modal_window );
 
 
     modalTrigger.forEach(btn => {
@@ -273,13 +285,13 @@ function modal() {
     const modalTimerId = setTimeout(openModal, 5000000000);
 
 
-    function showModalByScroll() {
-        if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
-            openModal();
-            window.removeEventListener('scroll', showModalByScroll);
-        }
-    }
-    window.addEventListener('scroll', showModalByScroll);
+    // function showModalByScroll() {
+    //     if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
+    //         openModal();
+    //         window.removeEventListener('scroll', showModalByScroll);
+    //     }
+    // }
+    // window.addEventListener('scroll', showModalByScroll);
 
     const forms = document.querySelectorAll('form');
 
@@ -293,17 +305,7 @@ function modal() {
         bindPostData(item);
     });
 
-    const postsData = async (url, data) => {
-        const res = await fetch(url, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: data
-        });
-        console.log('ok');
-        return await res.json();
-    };
+  (0,_services_services__WEBPACK_IMPORTED_MODULE_0__.postsData)();
 
     function bindPostData(form) {
         form.addEventListener('submit', (e) => {
@@ -323,7 +325,7 @@ function modal() {
 
 
 
-            postsData("http://localhost:3000/requests", json)
+            (0,_services_services__WEBPACK_IMPORTED_MODULE_0__.postsData)("http://localhost:3000/requests", json)
                 .then(data => {
                     console.log(data);
                     showThanksModal(message.success);
@@ -360,7 +362,7 @@ function modal() {
 
 };
 
-module.exports = modal;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (modal);
 
 /***/ }),
 
@@ -368,150 +370,153 @@ module.exports = modal;
 /*!**************************!*\
   !*** ./src/js/slider.js ***!
   \**************************/
-/***/ ((module) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
 
 
+function slider(sliderSelector, nextArrow, prevArrow, totalSelector, currentSelector, imgSlide, slide_field, slider_wraper) {
+    const next = document.querySelector(nextArrow),
+        prev = document.querySelector(prevArrow),
+        slider = document.querySelector(sliderSelector),
+        total = document.querySelector(totalSelector),
+        current = document.querySelector(currentSelector),
+        sliderWrapper = document.querySelector(slider_wraper),
+        img = document.querySelectorAll(imgSlide),
+        slideField = document.querySelector(slide_field),
+        width = window.getComputedStyle(slider).width;
 
-function slider () {
-    const next = document.querySelector(".offer__slider-next"),
-    prev = document.querySelector('.offer__slider-prev'),
-    slider = document.querySelector('.offer__slider'),
-    total = document.querySelector("#total"),
-    current = document.querySelector("#current"),
-    sliderWrapper = document.querySelector(".offer__slider-wrapper"),
-    img = document.querySelectorAll('.offer__slide'),
-    slideField = document.querySelector('.offer__slider-inner'),
-    width = window.getComputedStyle(slider).width;
-
-let slideIndex = 1;
-let offSet = 0;
+    let slideIndex = 1;
+    let offSet = 0;
 
 
-function dotOn() {
-    dots.forEach(dot => dot.style.opacity = '.5');
-    dots[slideIndex - 1].style.opacity = 1;
-}
-
-function checkTotalIndex() {
-    if (img.length < 10) {
-        current.textContent = `0${slideIndex}`;
-
-    } else {
-        current.textContent = slideIndex;
-    };
-
-};
-
-slideField.style.width = 100 * img.length + '%';
-slideField.style.display = 'flex';
-slideField.style.transition = '0.8s all';
-
-sliderWrapper.style.overflow = 'hidden';
-
-console.log(img.length);
-
-function text() {
-    if (img.length < 10) {
-        total.textContent = `0${img.length}`;
-        current.textContent = `0${slideIndex}`;
-    } else {
-        total.textContent = img.length;
-        current.textContent = slideIndex;
-    };
-};
-
-text();
-
-img.forEach(slide => {
-    slide.style.width = width;
-});
-
-slider.style.position = 'relative';
-
-const indicators = document.createElement('ol'),
-    dots = [];
-indicators.classList.add('carousel-indicators');
-
-slider.append(indicators);
-
-for (let i = 0; i < img.length; i++) {
-    const dot = document.createElement('li');
-    dot.setAttribute('data-slide-to', i + 1);
-    dot.classList.add('dot');
-    if (i == 0) {
-        dot.style.opacity = 1;
+    function dotOn() {
+        dots.forEach(dot => dot.style.opacity = '.5');
+        dots[slideIndex - 1].style.opacity = 1;
     }
-    indicators.append(dot);
-    dots.push(dot);
-}
 
-next.addEventListener('click', function () {
-    if (offSet == +width.replace(/px/, '') * (img.length - 1)) {
-        offSet = 0;
-    } else {
-        offSet += +width.replace(/px/, '');
+    function checkTotalIndex() {
+        if (img.length < 10) {
+            current.textContent = `0${slideIndex}`;
+
+        } else {
+            current.textContent = slideIndex;
+        };
+
     };
 
-    slideField.style.transform = `translateX(-${offSet}px)`;
+    slideField.style.width = 100 * img.length + '%';
+    slideField.style.display = 'flex';
+    slideField.style.transition = '0.8s all';
 
-    if (slideIndex == img.length) {
-        slideIndex = 1;
-    } else {
-        slideIndex++;
+    sliderWrapper.style.overflow = 'hidden';
+
+    console.log(img.length);
+
+    function text() {
+        if (img.length < 10) {
+            total.textContent = `0${img.length}`;
+            current.textContent = `0${slideIndex}`;
+        } else {
+            total.textContent = img.length;
+            current.textContent = slideIndex;
+        };
     };
 
-    console.log(+width.replace(/px/, ''));
+    text();
 
-    checkTotalIndex();
+    img.forEach(slide => {
+        slide.style.width = width;
+    });
 
-    dotOn();
-});
+    slider.style.position = 'relative';
 
-prev.addEventListener('click', function () {
+    const indicators = document.createElement('ol'),
+        dots = [];
+    indicators.classList.add('carousel-indicators');
 
-    if (offSet == 0) {
-        offSet = +width.replace(/px/, '') * (img.length - 1);
-    } else {
-        offSet -= +width.replace(/px/, '');
-    };
+    slider.append(indicators);
 
-    slideField.style.transform = `translateX(-${offSet}px)`;
+    for (let i = 0; i < img.length; i++) {
+        const dot = document.createElement('li');
+        dot.setAttribute('data-slide-to', i + 1);
+        dot.classList.add('dot');
+        if (i == 0) {
+            dot.style.opacity = 1;
+        }
+        indicators.append(dot);
+        dots.push(dot);
+    }
 
-    if (slideIndex == 1) {
-        slideIndex = img.length;
-    } else {
-        slideIndex--;
-    };
-
-    checkTotalIndex();
-
-    dots.forEach(dot => dot.style.opacity = '.5');
-    dots[slideIndex - 1].style.opacity = 1;
-});
-
-dots.forEach(dot => {
-    dot.addEventListener('click', (e) => {
-        const target = e.target,
-            slideTo = target.getAttribute('data-slide-to');
-
-        slideIndex = slideTo;
-
-        offSet = +width.replace(/px/, '') * (slideTo - 1);
+    next.addEventListener('click', function () {
+        if (offSet == +width.replace(/px/, '') * (img.length - 1)) {
+            offSet = 0;
+        } else {
+            offSet += +width.replace(/px/, '');
+        };
 
         slideField.style.transform = `translateX(-${offSet}px)`;
+
+        if (slideIndex == img.length) {
+            slideIndex = 1;
+        } else {
+            slideIndex++;
+        };
+
+        console.log(+width.replace(/px/, ''));
 
         checkTotalIndex();
 
         dotOn();
-
     });
-});
+
+    prev.addEventListener('click', function () {
+
+        if (offSet == 0) {
+            offSet = +width.replace(/px/, '') * (img.length - 1);
+        } else {
+            offSet -= +width.replace(/px/, '');
+        };
+
+        slideField.style.transform = `translateX(-${offSet}px)`;
+
+        if (slideIndex == 1) {
+            slideIndex = img.length;
+        } else {
+            slideIndex--;
+        };
+
+        checkTotalIndex();
+
+        dots.forEach(dot => dot.style.opacity = '.5');
+        dots[slideIndex - 1].style.opacity = 1;
+    });
+
+    dots.forEach(dot => {
+        dot.addEventListener('click', (e) => {
+            const target = e.target,
+                slideTo = target.getAttribute('data-slide-to');
+
+            slideIndex = slideTo;
+
+            offSet = +width.replace(/px/, '') * (slideTo - 1);
+
+            slideField.style.transform = `translateX(-${offSet}px)`;
+
+            checkTotalIndex();
+
+            dotOn();
+
+        });
+    });
 
 
 };
 
-module.exports = slider;
-
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (slider);
 
 /***/ }),
 
@@ -519,48 +524,51 @@ module.exports = slider;
 /*!************************!*\
   !*** ./src/js/tabs.js ***!
   \************************/
-/***/ ((module) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
 
 
+function tabs(tab, tab_content, tab_parent) {
+    const tabs = document.querySelectorAll(tab),
+        tabsContents = document.querySelectorAll(tab_content),
+        tabsParent = document.querySelector(tab_parent);
 
-function tabs () {
-    const tabs = document.querySelectorAll('.tabheader__item'),
-    tabsContents = document.querySelectorAll('.tabcontent'),
-    tabsParent = document.querySelector('.tabheader__items');
+    function hideTabContent() {
+        tabsContents.forEach(item => {
+            item.style.display = 'none';
+        });
 
-function hideTabContent() {
-    tabsContents.forEach(item => {
-        item.style.display = 'none';
-    });
-
-    tabs.forEach(item => {
-        item.classList.remove('tabheader__item_active');
-    });
-}
-
-function showTabContent(i) {
-    tabsContents[i].style.display = 'block';
-    tabs[i].classList.add('tabheader__item_active');
-};
-hideTabContent();
-showTabContent(0);
-
-tabsParent.addEventListener('click', function (event) {
-    const target = event.target;
-    if (target && target.classList.contains('tabheader__item')) {
-        tabs.forEach((item, i) => {
-            if (target == item) {
-                hideTabContent();
-                showTabContent(i);
-            }
+        tabs.forEach(item => {
+            item.classList.remove('tabheader__item_active');
         });
     }
-});
+
+    function showTabContent(i) {
+        tabsContents[i].style.display = 'block';
+        tabs[i].classList.add('tabheader__item_active');
+    };
+    hideTabContent();
+    showTabContent(0);
+
+    tabsParent.addEventListener('click', function (event) {
+        const target = event.target;
+        if (target && target.classList.contains('tabheader__item')) {
+            tabs.forEach((item, i) => {
+                if (target == item) {
+                    hideTabContent();
+                    showTabContent(i);
+                }
+            });
+        }
+    });
 
 };
 
-module.exports = tabs;
-
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (tabs);
 
 /***/ }),
 
@@ -568,13 +576,17 @@ module.exports = tabs;
 /*!****************************!*\
   !*** ./src/js/timerSet.js ***!
   \****************************/
-/***/ ((module) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
 
 
+function timerSet(yyyy_mm_dd) {
 
-function timerSet () {
-
-    const deadline = '2022-12-09';
+    const deadline = (yyyy_mm_dd);
 
     function getTimeRemaining(endtime) {
         const t = Date.parse(endtime) - Date.parse(new Date()),
@@ -629,7 +641,35 @@ function timerSet () {
 
 };
 
-module.exports = timerSet;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (timerSet);
+
+/***/ }),
+
+/***/ "./src/services/services.js":
+/*!**********************************!*\
+  !*** ./src/services/services.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "postsData": () => (/* binding */ postsData)
+/* harmony export */ });
+
+
+const postsData = async (url, data) => {
+    const res = await fetch(url, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: data
+    });
+    console.log('ok');
+    return await res.json();
+};
+
+
 
 
 /***/ })
@@ -661,31 +701,70 @@ module.exports = timerSet;
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 /*!************************!*\
   !*** ./src/js/main.js ***!
   \************************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index */ "./src/js/index.js");
+/* harmony import */ var _timerSet__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./timerSet */ "./src/js/timerSet.js");
+/* harmony import */ var _calc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./calc */ "./src/js/calc.js");
+/* harmony import */ var _cards__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./cards */ "./src/js/cards.js");
+/* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modal */ "./src/js/modal.js");
+/* harmony import */ var _slider__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./slider */ "./src/js/slider.js");
+/* harmony import */ var _tabs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./tabs */ "./src/js/tabs.js");
+
+
+
+
+
+
 
 
 window.addEventListener('DOMContentLoaded', function () {
 
+    (0,_timerSet__WEBPACK_IMPORTED_MODULE_1__["default"])('2023-12-09');
+    (0,_calc__WEBPACK_IMPORTED_MODULE_2__["default"])('.calculating__result span');
+    (0,_cards__WEBPACK_IMPORTED_MODULE_3__["default"])(28.3);
+    (0,_modal__WEBPACK_IMPORTED_MODULE_4__["default"])('[data-modal]', '.modal');
+    (0,_slider__WEBPACK_IMPORTED_MODULE_5__["default"])('.offer__slider', ".offer__slider-next", '.offer__slider-prev', "#total", "#current", '.offer__slide', '.offer__slider-inner', ".offer__slider-wrapper");
+    (0,_tabs__WEBPACK_IMPORTED_MODULE_6__["default"])('.tabheader__item', '.tabcontent', '.tabheader__items');
+_index__WEBPACK_IMPORTED_MODULE_0__["default"].hello();
 
-    const conso = __webpack_require__(/*! ./index */ "./src/js/index.js"),
-        timerSet = __webpack_require__(/*! ./timerSet */ "./src/js/timerSet.js"),
-        calc = __webpack_require__(/*! ./calc */ "./src/js/calc.js"),
-        cards = __webpack_require__(/*! ./cards */ "./src/js/cards.js"),
-        modal = __webpack_require__(/*! ./modal */ "./src/js/modal.js"),
-        slider = __webpack_require__(/*! ./slider */ "./src/js/slider.js"),
-        tabs = __webpack_require__(/*! ./tabs */ "./src/js/tabs.js");
 
-    timerSet();
-    calc();
-    cards();
-    modal();
-    slider();
-    tabs();
+ console.log(_index__WEBPACK_IMPORTED_MODULE_0__["default"]);
+
 
 })
 })();

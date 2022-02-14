@@ -1,9 +1,9 @@
 'use strict';
 
-function tabs() {
-    const tabs = document.querySelectorAll('.tabheader__item'),
-        tabsContents = document.querySelectorAll('.tabcontent'),
-        tabsParent = document.querySelector('.tabheader__items');
+function tabs(tab, tab_content, tab_parent) {
+    const tabs = document.querySelectorAll(tab),
+        tabsContents = document.querySelectorAll(tab_content),
+        tabsParent = document.querySelector(tab_parent);
 
     function hideTabContent() {
         tabsContents.forEach(item => {
@@ -36,4 +36,4 @@ function tabs() {
 
 };
 
-module.exports = tabs;
+export default tabs;

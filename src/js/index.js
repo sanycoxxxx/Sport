@@ -1,6 +1,5 @@
 'use strict';
 
- const consol = 'hello';
 
 function conso() {
     this.hello = function () {
@@ -11,4 +10,4 @@ console.log('hello');
     }
 };
 
-module.exports = conso;
+export default conso;

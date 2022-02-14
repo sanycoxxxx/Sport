@@ -1,8 +1,8 @@
 'use strict';
 
-function timerSet() {
+function timerSet(yyyy_mm_dd) {
 
-    const deadline = '2022-12-09';
+    const deadline = (yyyy_mm_dd);
 
     function getTimeRemaining(endtime) {
         const t = Date.parse(endtime) - Date.parse(new Date()),
@@ -57,4 +57,4 @@ function timerSet() {
 
 };
 
-module.exports = timerSet;
+export default timerSet;
