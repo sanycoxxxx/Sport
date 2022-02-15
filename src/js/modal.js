@@ -1,5 +1,7 @@
 'use strict';
-import {postsData} from '../services/services'
+
+import {postsData} from '../services/services.js';
+
 function modal( modal_Trigger, modal_window ) {
     const modalTrigger = document.querySelectorAll(modal_Trigger),
         modal = document.querySelector(modal_window );
@@ -58,8 +60,6 @@ function modal( modal_Trigger, modal_window ) {
     forms.forEach(item => {
         bindPostData(item);
     });
-
-  postsData();
 
     function bindPostData(form) {
         form.addEventListener('submit', (e) => {

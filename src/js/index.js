@@ -1,13 +1,17 @@
 'use strict';
 
 
-function conso() {
-    this.hello = function () {
-console.log('hello');
-    };
-    this.goodbye = function () {
-        console.log('goodbye');
+
+
+
+let user = {
+    name: 'Pitter',
+    age: 24,
+    say: function() {
+        console.log(`Hello ${user.name}, ${user.age} years old`)
     }
 };
 
-export default conso;
+user.say();
+
+export default user;
